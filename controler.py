@@ -1,5 +1,4 @@
-from model import Weapon, Character, Monster
-from view import View
+from model import Character
 from characters import CHARACTERS
 
 MAX_PLAYERS = 4
@@ -9,9 +8,12 @@ MAX_MONSTERS = 5
 class Controller:
     def __init__(self, view) -> None:
         # model
+        self.playable_characters = CHARACTERS
         self.characters: list = []
         self.players: dict = {}
         self.pnjs: list = []
+
+        self.dungeon_difficulty = 1
         self.monsters: list = []
         self.queue: list = []
 
@@ -24,25 +26,31 @@ class Controller:
                 return None
             character_abilities = self.view.prompt_for_character(
                 player,
-                CHARACTERS,
+                self.playable_characters,
             )
             if not character_abilities:
                 return None
-            self.characters.append(Character(**character_abilities))
+            character = Character(**character_abilities)
+            self.characters.append(character)
+            del self.playable_characters[character.name]
+            self.players[character.name] = player
 
-    # def get_pnjs(self) -> None:
-    #     while (len(self.characters) + len(self.pnjs)) < MAX_PLAYERS:
-    #         pnj: dict = self.view.prompt_for_pnjs()
-    #         if not pnj:
-    #             return None
-    #         self.pnjs.append(Character(**pnjs))
+    def get_pnjs(self) -> None:
+        while len(self.characters) + len(self.pnjs) < MAX_PLAYERS:
+            pnj_number = len(self.pnjs) + 1
+            character_abilities = self.view.prompt_for_character(
+                f"bot{pnj_number}",
+                self.playable_characters,
+            )
+            if not character_abilities:
+                return None
+            character = Character(**character_abilities)
+            self.pnjs.append(character)
+            del self.playable_characters[character.name]
+            self.players[character.name] = f"bot{pnj_number}"
 
-    # def get_monsters(self):
-    #     while len(self.monsters) < MAX_MONSTERS:
-    #         monster: dict = self.view.prompt_for_monsters()
-    #         if not monster:
-    #             return None
-    #         self.monsters.append(Monster(**monster))
+    def get_difficulty(self) -> None:
+        self.dungeon_difficulty = self.view.prompt_difficulty()
 
     # def start_game(self):
     #     self.queue = self.characters + self.pnjs + self.monsters
@@ -52,9 +60,11 @@ class Controller:
     def run(self) -> None:
         self.get_players()
 
-        # self.view.display_players(self.characters)
+        self.get_pnjs()
 
-        # self.get_pnjs()
+        self.view.display_players(self.players)
+
+        self.get_difficulty()
 
         # self.get_monsters()
 
