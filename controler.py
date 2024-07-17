@@ -1,5 +1,7 @@
-from model import Character
+from random import choices
+from model import Character, Monster
 from characters import CHARACTERS
+from monsters import MONSTERS
 
 MAX_PLAYERS = 4
 MAX_MONSTERS = 5
@@ -10,8 +12,8 @@ class Controller:
         # model
         self.playable_characters = CHARACTERS
         self.characters: list = []
-        self.players: dict = {}
         self.pnjs: list = []
+        self.players: dict = {}
 
         self.dungeon_difficulty = 1
         self.monsters: list = []
@@ -52,6 +54,20 @@ class Controller:
     def get_difficulty(self) -> None:
         self.dungeon_difficulty = self.view.prompt_difficulty()
 
+    def select_monsters(self) -> None:
+        monster_number = min(len(self.players) + 1, MAX_MONSTERS)
+        available_monsters = [
+            monster
+            for monster in MONSTERS
+            if (MONSTERS[monster]["difficulty"] <= self.dungeon_difficulty)
+        ]
+        choosed_monsters = choices(available_monsters, k=monster_number)
+
+        for monster_name in choosed_monsters:
+            monster_abilities = MONSTERS[monster_name]
+            monster = Monster(**monster_abilities)
+            self.monsters.append(monster)
+
     # def start_game(self):
     #     self.queue = self.characters + self.pnjs + self.monsters
     #     for player in self.queue:
@@ -66,7 +82,9 @@ class Controller:
 
         self.get_difficulty()
 
-        # self.get_monsters()
+        self.select_monsters()
+
+        self.view.display_monsters(self.monsters)
 
         # self.start_game()
         # for player in self.queue:

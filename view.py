@@ -20,12 +20,12 @@ class View:
             print(f"\t\tArmure: {choices[value]['armor']}\n")
             print(f"\t\tCaractéristiques: {choices[value]['desc']}\n")
             print(
-                f"\t\tArme 1: {choices[value]['weapon1']['name']}; "
-                f"{choices[value]['weapon1']['desc']}\n"
+                f"\t\tArme 1: {choices[value]['weapon1'].name}; "
+                f"{choices[value]['weapon1'].desc}\n"
             )
             print(
-                f"\t\tArme 2: {choices[value]['weapon2']['name']}; "
-                f"{choices[value]['weapon2']['desc']}\n"
+                f"\t\tArme 2: {choices[value]['weapon2'].name}; "
+                f"{choices[value]['weapon2'].desc}\n"
             )
             indexed_choices[index + 1] = value
 
@@ -44,7 +44,12 @@ class View:
 
     def prompt_difficulty(self):
         choice = int(
-            input("\nChoisissez un niveau de difficulté entre 1 et 10 (defaut: 1): ")
+            input("\nChoisissez un niveau de difficulté entre 1 et 3 (defaut: 1): ")
             or 1
         )
         return choice
+
+    def display_monsters(self, monsters):
+        print("\nVoici les monstres contre lesquels vous allez vous battre:\n\n")
+        for monster in monsters:
+            print(f"\t- {monster.name}, {monster.desc}\n")
