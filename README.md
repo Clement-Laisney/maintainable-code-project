@@ -24,6 +24,7 @@ Choisissez vos armes :
 ![screenshot des armes disponibles pour le personnage](img/weapon_list.png)
 
 Massacrez les monstres !
+
 ![screenshot des monstres du donjon](img/target_list.png)
 
 
