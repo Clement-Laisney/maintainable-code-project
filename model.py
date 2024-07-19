@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Character:
     def __init__(
         self,
@@ -29,6 +32,29 @@ class Character:
 
     def __repr__(self) -> str:
         return f"<Character: {self.name}>"
+
+    def attack(self, other, weapon):
+        damage_dice = weapon.damage
+        damages = self.roll_damage(damage_dice)
+        other.damage(damages)
+        return damages
+
+    def roll_damage(self, damage_dice):
+        number_of_dice, value_of_dice = damage_dice.split("d")
+        rolls = np.random.randint(
+            1,
+            int(value_of_dice) + 1,
+            int(number_of_dice),
+        )
+        total_damage = np.sum(rolls)
+        return total_damage
+
+    def damage(self, damages):
+        if self.hit_points > damages:
+            self.hit_points -= damages
+            return None
+        self.hit_points = 0
+        self.is_alive = False
 
 
 class Weapon:

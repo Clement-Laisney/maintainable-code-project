@@ -5,7 +5,7 @@ MONSTERS = {
     "Dragonnet de cuivre": {
         "name": "Dragonnet de cuivre",
         "hit_points": 22,
-        "armor": 16,
+        "armor": 12,
         "weapon1": Weapon(**WEAPONS["Morsure de dragon"]),
         "weapon2": Weapon(**WEAPONS["Souffle d'acide"]),
         "difficulty": 1,
@@ -14,7 +14,7 @@ MONSTERS = {
     "Ours brun": {
         "name": "Ours brun",
         "hit_points": 34,
-        "armor": 11,
+        "armor": 7,
         "weapon1": Weapon(**WEAPONS["Griffe de bête sauvage"]),
         "weapon2": Weapon(**WEAPONS["Morsure de bête sauvage"]),
         "difficulty": 1,
@@ -23,7 +23,7 @@ MONSTERS = {
     "Loup sanguinaire": {
         "name": "Loup sanguinaire",
         "hit_points": 37,
-        "armor": 14,
+        "armor": 10,
         "weapon1": Weapon(**WEAPONS["Morsure de bête sauvage"]),
         "weapon2": Weapon(**WEAPONS["Morsure de bête sauvage"]),
         "difficulty": 1,
@@ -32,7 +32,7 @@ MONSTERS = {
     "Goule": {
         "name": "Goule",
         "hit_points": 22,
-        "armor": 12,
+        "armor": 8,
         "weapon1": Weapon(**WEAPONS["Griffe de goule"]),
         "weapon2": Weapon(**WEAPONS["Morsure de goule"]),
         "difficulty": 1,
@@ -41,7 +41,7 @@ MONSTERS = {
     "Spectre": {
         "name": "Spectre",
         "hit_points": 22,
-        "armor": 12,
+        "armor": 8,
         "weapon1": Weapon(**WEAPONS["Absorbtion de vie"]),
         "weapon2": Weapon(**WEAPONS["Absorbtion de vie"]),
         "difficulty": 1,
@@ -50,7 +50,7 @@ MONSTERS = {
     "Ankheg": {
         "name": "Ankheg",
         "hit_points": 39,
-        "armor": 14,
+        "armor": 10,
         "weapon1": Weapon(**WEAPONS["Morsure de bête sauvage"]),
         "weapon2": Weapon(**WEAPONS["Vaporisation d'acide"]),
         "difficulty": 2,
@@ -59,7 +59,7 @@ MONSTERS = {
     "Griffon": {
         "name": "Griffon",
         "hit_points": 59,
-        "armor": 12,
+        "armor": 8,
         "weapon1": Weapon(**WEAPONS["Coup de bec"]),
         "weapon2": Weapon(**WEAPONS["Griffe de bête sauvage"]),
         "difficulty": 2,
@@ -68,7 +68,7 @@ MONSTERS = {
     "Mimique": {
         "name": "Mimique",
         "hit_points": 58,
-        "armor": 12,
+        "armor": 8,
         "weapon1": Weapon(**WEAPONS["Morsure de mimique"]),
         "weapon2": Weapon(**WEAPONS["Pseudopode"]),
         "difficulty": 2,
@@ -77,7 +77,7 @@ MONSTERS = {
     "Merrow": {
         "name": "Merrow",
         "hit_points": 45,
-        "armor": 13,
+        "armor": 9,
         "weapon1": Weapon(**WEAPONS["Morsure de merrow"]),
         "weapon2": Weapon(**WEAPONS["Harpon"]),
         "difficulty": 2,
@@ -86,7 +86,7 @@ MONSTERS = {
     "Doppelganger": {
         "name": "Doppelganger",
         "hit_points": 52,
-        "armor": 14,
+        "armor": 10,
         "weapon1": Weapon(**WEAPONS["Coup"]),
         "weapon2": Weapon(**WEAPONS["Attaque surprise"]),
         "difficulty": 3,
@@ -95,7 +95,7 @@ MONSTERS = {
     "Basilic": {
         "name": "Basilic",
         "hit_points": 52,
-        "armor": 15,
+        "armor": 11,
         "weapon1": Weapon(**WEAPONS["Morsure de basilic"]),
         "weapon2": Weapon(**WEAPONS["Morsure de basilic"]),
         "difficulty": 3,
@@ -104,7 +104,7 @@ MONSTERS = {
     "Vétéran": {
         "name": "Vétéran",
         "hit_points": 58,
-        "armor": 17,
+        "armor": 13,
         "weapon1": Weapon(**WEAPONS["Epée longue"]),
         "weapon2": Weapon(**WEAPONS["Arbalète lourde"]),
         "difficulty": 3,

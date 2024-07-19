@@ -1,4 +1,4 @@
-from random import choices
+from random import choices, choice, shuffle, randint
 from model import Character, Monster
 from characters import CHARACTERS
 from monsters import MONSTERS
@@ -9,14 +9,14 @@ MAX_MONSTERS = 5
 
 class Controller:
     def __init__(self, view) -> None:
-        # model
         self.playable_characters = CHARACTERS
-        self.characters: list = []
-        self.pnjs: list = []
         self.players: dict = {}
 
-        self.dungeon_difficulty = 1
+        self.characters: list = []
+        self.pnjs: list = []
         self.monsters: list = []
+
+        self.dungeon_difficulty = 1
         self.queue: list = []
 
         self.view = view
@@ -68,10 +68,74 @@ class Controller:
             monster = Monster(**monster_abilities)
             self.monsters.append(monster)
 
-    # def start_game(self):
-    #     self.queue = self.characters + self.pnjs + self.monsters
-    #     for player in self.queue:
-    #         player.action()
+    def roll_initiative(self) -> None:
+        self.queue = self.characters + self.pnjs + self.monsters
+        shuffle(self.queue)
+
+    def start_dungeon(self):
+        is_running = True
+        while is_running:
+            for character in self.queue:
+                if (len(self.characters) + len(self.pnjs) > 0) and len(
+                    self.monsters
+                ) > 0:
+                    if character.is_alive:
+                        self.view.display_hit_points(character)
+                        if character in self.characters:
+                            target = self.view.prompt_target(self.monsters)
+                            weapon = self.view.prompt_weapon(
+                                [character.weapon1, character.weapon2]
+                            )
+
+                        elif character in self.pnjs:
+                            target = self.choose_target(self.monsters)
+                            weapon = self.choose_weapon(
+                                [character.weapon1, character.weapon2]
+                            )
+
+                        else:
+                            target = self.choose_target(self.characters + self.pnjs)
+                            weapon = self.choose_weapon(
+                                [character.weapon1, character.weapon2]
+                            )
+
+                        self.view.display_attack(character, target, weapon)
+                        is_hit = self.roll_attack(target)
+                        if is_hit:
+                            damages = character.attack(target, weapon)
+                            self.view.display_damages(character, target, damages)
+                            is_still_alive = target.is_alive
+                            if not is_still_alive:
+                                if target in self.characters:
+                                    self.characters.remove(target)
+                                elif target in self.pnjs:
+                                    self.pnjs.remove(target)
+                                else:
+                                    self.monsters.remove(target)
+                                self.view.display_death(target)
+                        else:
+                            self.view.display_hit_failled()
+                else:
+                    is_running = False
+
+    def choose_target(self, available_target):
+        target = choice(available_target)
+        return target
+
+    def choose_weapon(self, weapons):
+        weapon = choice(weapons)
+        return weapon
+
+    def roll_attack(self, target):
+        armor = target.armor
+        dice = randint(1, 21)
+        return dice > armor
+
+    def winner(self, heroes, monsters):
+        if len(heroes) == 0:
+            return "Monsters"
+        else:
+            return "Heroes"
 
     def run(self) -> None:
         self.get_players()
@@ -86,6 +150,11 @@ class Controller:
 
         self.view.display_monsters(self.monsters)
 
-        # self.start_game()
-        # for player in self.queue:
-        #     self.view.show_actions()
+        self.roll_initiative()
+
+        self.view.display_initiative_order(self.queue)
+
+        self.start_dungeon()
+
+        winner = self.winner(self.characters + self.pnjs, self.monsters)
+        self.view.display_winner(winner)
