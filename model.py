@@ -33,13 +33,30 @@ class Character:
     def __repr__(self) -> str:
         return f"<Character: {self.name}>"
 
-    def attack(self, other, weapon):
+    def attack(self, other: "Character", weapon: "Weapon") -> int:
+        """Rolls the damage dice and aplly them to the target
+
+        Args:
+            other (Character): The targeted object
+            weapon (Weapon): The weapon object used to attack
+
+        Returns:
+            int: Rolled damages
+        """
         damage_dice = weapon.damage
         damages = self.roll_damage(damage_dice)
         other.damage(damages)
         return damages
 
-    def roll_damage(self, damage_dice):
+    def roll_damage(self, damage_dice: str) -> int:
+        """Rolls damage dice
+
+        Args:
+            damage_dice (str): Description of the dice (ie: 1d4, 2d10 etc...)
+
+        Returns:
+            int: Damages
+        """
         number_of_dice, value_of_dice = damage_dice.split("d")
         rolls = np.random.randint(
             1,
@@ -49,7 +66,12 @@ class Character:
         total_damage = np.sum(rolls)
         return total_damage
 
-    def damage(self, damages):
+    def damage(self, damages: int) -> None:
+        """Apply damages to the object
+
+        Args:
+            damages (int): value of the damages
+        """
         if self.hit_points > damages:
             self.hit_points -= damages
             return None
